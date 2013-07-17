@@ -1,0 +1,14 @@
+{
+  "name": "exmaple-hapi-api",
+  "version": "0.0.1",
+  "description": "An example hapi API.",
+  "main": "server.js",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "author": "Matt Hernandez <matt@modulus.io>",
+  "license": "MIT",
+  "dependencies": {
+    "hapi": "~1.8.3"
+  }
+}
