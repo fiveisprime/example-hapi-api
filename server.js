@@ -32,7 +32,7 @@ var server = Hapi.createServer('localhost', process.env.PORT || 3000);
 //
 var quoteController = {};
 
-quoteController.get = {
+quoteController.getConfig = {
   handler: function(req) {
     if (req.params.id) {
       if (quotes.length <= req.params.id) return req.reply('No quote found.').code(404);
@@ -42,7 +42,7 @@ quoteController.get = {
   }
 };
 
-quoteController.post = {
+quoteController.postConfig = {
   handler: function(req) {
     quotes.push({ author: req.payload.author, text: req.payload.text });
     req.reply();
@@ -55,7 +55,7 @@ quoteController.post = {
   }
 };
 
-quoteController.delete = {
+quoteController.deleteConfig = {
   handler: function(req) {
     if (quotes.length <= req.params.id) return req.reply('No quote found.').code(404);
     quotes.splice(req.params.id, 1);
@@ -64,24 +64,16 @@ quoteController.delete = {
 };
 
 //
-// Configure the routes.
+// Route configuration.
+// ---
 //
-server.route({
-  path: '/quote/{id?}'
-, method: 'GET'
-, config: quoteController.get
-});
 
-server.route({
-  path: '/quote'
-, method: 'POST'
-, config: quoteController.post
-});
+var routes = [
+  { path: '/quote/{id?}', method: 'GET', config: quoteController.getConfig }
+, { path: '/quote', method: 'POST', config: quoteController.postConfig }
+, { path: '/quote/{id}', method: 'DELETE', config: quoteController.deleteConfig }
+];
 
-server.route({
-  path: '/quote/{id}'
-, method: 'DELETE'
-, config: quoteController.delete
-});
+server.addRoutes(routes);
 
 server.start();
