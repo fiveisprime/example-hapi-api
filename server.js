@@ -24,7 +24,14 @@ var quotes = [
   }
 ];
 
-var server = Hapi.createServer('localhost', process.env.PORT || 3000);
+//
+// The `createServer` factory method accepts the host name and port as the first
+//    two parameters.
+// When hosting on a PaaS provider, the host must be configured to allow all
+//    connections (using 0.0.0.0) and the PORT environment variable must be
+//    converted to a Number.
+//
+var server = Hapi.createServer('0.0.0.0', +process.env.PORT || 3000);
 
 //
 // Simulate an external module which is the correct way to expose this
