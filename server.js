@@ -43,16 +43,24 @@ quoteController.getConfig = {
   handler: function(req) {
     if (req.params.id) {
       if (quotes.length <= req.params.id) return req.reply('No quote found.').code(404);
-      req.reply(quotes[req.params.id]);
+      return req.reply(quotes[req.params.id]);
     }
     req.reply(quotes);
   }
 };
 
+quoteController.getRandomConfig = {
+  handler: function(req) {
+    var id = Math.floor(Math.random() * quotes.length);
+    req.reply(quotes[id]);
+  }
+};
+
 quoteController.postConfig = {
   handler: function(req) {
-    quotes.push({ author: req.payload.author, text: req.payload.text });
-    req.reply();
+    var newQuote = { author: req.payload.author, text: req.payload.text };
+    quotes.push(newQuote);
+    req.reply(newQuote);
   }
 , validate: {
     payload: {
@@ -66,7 +74,7 @@ quoteController.deleteConfig = {
   handler: function(req) {
     if (quotes.length <= req.params.id) return req.reply('No quote found.').code(404);
     quotes.splice(req.params.id, 1);
-    req.reply();
+    req.reply(true);
   }
 };
 
@@ -77,6 +85,7 @@ quoteController.deleteConfig = {
 
 var routes = [
   { path: '/quote/{id?}', method: 'GET', config: quoteController.getConfig }
+, { path: '/random', method: 'GET', config: quoteController.getRandomConfig }
 , { path: '/quote', method: 'POST', config: quoteController.postConfig }
 , { path: '/quote/{id}', method: 'DELETE', config: quoteController.deleteConfig }
 ];
