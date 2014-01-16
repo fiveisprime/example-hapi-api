@@ -40,27 +40,27 @@ var server = Hapi.createServer('0.0.0.0', +process.env.PORT || 3000);
 var quoteController = {};
 
 quoteController.getConfig = {
-  handler: function(req) {
+  handler: function(req, reply) {
     if (req.params.id) {
-      if (quotes.length <= req.params.id) return req.reply('No quote found.').code(404);
-      return req.reply(quotes[req.params.id]);
+      if (quotes.length <= req.params.id) return reply('No quote found.').code(404);
+      return reply(quotes[req.params.id]);
     }
-    req.reply(quotes);
+    reply(quotes);
   }
 };
 
 quoteController.getRandomConfig = {
-  handler: function(req) {
+  handler: function(req, reply) {
     var id = Math.floor(Math.random() * quotes.length);
-    req.reply(quotes[id]);
+    reply(quotes[id]);
   }
 };
 
 quoteController.postConfig = {
-  handler: function(req) {
+  handler: function(req, reply) {
     var newQuote = { author: req.payload.author, text: req.payload.text };
     quotes.push(newQuote);
-    req.reply(newQuote);
+    reply(newQuote);
   }
 , validate: {
     payload: {
@@ -71,10 +71,10 @@ quoteController.postConfig = {
 };
 
 quoteController.deleteConfig = {
-  handler: function(req) {
-    if (quotes.length <= req.params.id) return req.reply('No quote found.').code(404);
+  handler: function(req, reply) {
+    if (quotes.length <= req.params.id) return reply('No quote found.').code(404);
     quotes.splice(req.params.id, 1);
-    req.reply(true);
+    reply(true);
   }
 };
 
@@ -90,6 +90,6 @@ var routes = [
 , { path: '/quote/{id}', method: 'DELETE', config: quoteController.deleteConfig }
 ];
 
-server.addRoutes(routes);
+server.route(routes);
 
 server.start();
