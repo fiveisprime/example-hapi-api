@@ -9,6 +9,6 @@
   "author": "Matt Hernandez <matt@modulus.io>",
   "license": "MIT",
   "dependencies": {
-    "hapi": "~2.0.0-preview"
+    "hapi": "~2.0.0"
   }
 }
