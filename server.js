@@ -4,6 +4,7 @@
 //
 
 var Hapi = require('hapi');
+var Joi = require('joi');
 
 var quotes = [
   {
@@ -64,8 +65,8 @@ quoteController.postConfig = {
   }
 , validate: {
     payload: {
-      author: Hapi.types.String().required()
-    , text: Hapi.types.String().required()
+      author: Joi.string().required()
+    , text: Joi.string().required()
     }
   }
 };
