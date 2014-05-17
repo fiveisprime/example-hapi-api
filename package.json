@@ -10,6 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "hapi": "~2.0.0",
-    "joi": "^3.1.0"
+    "joi": "~3.1.0"
   }
 }
